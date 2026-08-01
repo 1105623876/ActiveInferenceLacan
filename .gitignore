@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+.idea/
+.DS_Store
+
+# v1 experiment artifacts (moved to archive/)
+plot_exp1_weights.png
+plot_exp1b_j1.png
+plot_exp2_longrange.png
+plot_exp3_sharpness.png
+plot_exp4_triadic.png
+plot_surplus_*.png
+plot_individual.png
+plot_dyadic.png
+plot_triadic.png
