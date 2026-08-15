@@ -1,0 +1,5 @@
+env_init,init_mode,n_seeds,n_converged,convergence_rate,sym_var_final_mean,sym_var_final_std,sym_var_second_half_mean,sym_var_second_half_std,pct_S0,pct_S8,pct_other_conv,pct_no_conv
+5_2_6,current,100,24,0.24,0.168889,0.094907,0.168889,0.094907,0.17,0.00,0.07,0.76
+5_2_6,no_update_first_step,100,15,0.15,0.188889,0.079349,0.211111,0.080897,0.05,0.10,0.00,0.85
+8_8_8,current,100,100,1.00,0.000000,0.000000,0.000000,0.000000,0.00,1.00,0.00,0.00
+8_8_8,no_update_first_step,100,100,1.00,0.000000,0.000000,0.000000,0.000000,0.00,1.00,0.00,0.00

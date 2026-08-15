@@ -41,65 +41,45 @@ The original model is based on:
 
 ## This continuation
 
-The extension in this repository explores what follows from the original toy model rather than claiming to prove Lacanian theory.
+The extension in this repository explores what follows from the original toy model rather than claiming to prove Lacanian theory. The current synthesis is the Chinese report `FINAL_REPORT.md`; allowed and disallowed claims are listed in `paper_claims_matrix_v2.md`.
 
-### Surplus jouissance as an operational hypothesis
+After correcting the original implementation, later experiments unconfound shared environment from inter-agent preference coupling, compare several coupling rules, and replace direct copying with a filtered belief about the other's Symbolic **position** (not their desire):
 
-The original paper does not formalize surplus jouissance (plus-de-jouir). The exploratory extension introduces three measurable quantities:
+```text
+S_j  →  noisy social observation  →  q(s_j)  →  C_i
+```
 
-- **Preference mismatch:** the KL divergence between the current posterior and the current preference;
-- **Expected-free-energy floor:** the minimum expected free energy over the finite policy set;
-- **Inter-subjective Symbolic gap:** the KL divergence between two agents' Symbolic posteriors.
+The strongest claims supported by the current experiments are:
 
-These are operational proxies and should not be interpreted as identities between information-theoretic quantities and Lacanian concepts.
+1. Inter-agent Symbolic preference coupling is the primary driver of Symbolic consensus in this model; hard copying is not necessary.
+2. A shared physical environment is only a weak alternative pathway.
+3. When the other is visible only through a noisy channel, a filtered belief still produces consensus.
+4. Under high opacity, agents can share a Symbolic coordinate while still misidentifying one another's position after they have aligned.
 
-### Corrected v2 experiments
-
-`deep_experiments_v2.py` contains the current corrected experiments:
-
-1. **Symbolic-coupling ablation:** examines how changing R/S/I coupling gains affects preference mismatch and trajectory stability.
-2. **Long-range dyadic synchronization:** evaluates Symbolic synchronization over 100 steps and 20 random seeds with isolated environments.
-3. **Expected-free-energy decomposition:** separates the observation-entropy term from the preference-divergence term while varying likelihood sharpness.
-4. **Triadic collective dynamics:** tests whether Symbolic coordination persists when every agent has its own R/S/I environments.
-
-The main operational observations are:
-
-- removing Symbolic coupling increases mismatch variability and trajectory length under the current parameters;
-- dyadic Symbolic synchronization is a stable attractor in the current model configuration;
-- observation noise produces a positive expected-free-energy floor in the finite-state model, although this is not evidence for surplus jouissance by itself;
-- a cyclic triadic desire structure can produce Symbolic-level collective convergence while Real and Imaginary states remain heterogeneous.
-
-The strongest claim supported by the current experiments is therefore:
-
-> Under the specified active-inference dynamics, state-dependent Symbolic coupling can generate a stable collective Symbolic attractor in isolated environments.
-
-This is a computational analogue compatible with an interpretation of the Other as emergent Symbolic coordination. It is not a clinical model, a proof of Lacanian psychoanalysis, or a standard implementation of all aspects of FEP.
+These are operational computational analogues. They are not a clinical model, a proof of Lacanian psychoanalysis, or a canonical FEP implementation. Surplus-jouissance proxies (preference mismatch, expected-free-energy floor, inter-subjective Symbolic gap) remain hypotheses and are **not** identified with plus-de-jouir.
 
 ## Reproduction
 
-The experiments are currently organized for WSL. If the repository is available at `/mnt/d/vibecoding/ActiveInferenceLacan`, run:
+From the repository root (Windows or WSL):
 
 ```bash
-python deep_experiments_v2.py
+python deep_experiments_v2.py          # corrected v2 baseline (no pymdp)
+python factorial_env_symbolic.py       # shared/isolated × coupling on/off
+python coupling_mechanism_control.py   # off / hard / soft / delayed / noisy
+python opaque_other_coupling.py phase1 # inferred-other position coupling
 ```
 
-The script is self-contained and does not require `pymdp`. It prints experiment summaries and writes the v2 figures:
-
-- `plot_v2_exp1_ablation.png`
-- `plot_v2_exp2_multiseed.png`
-- `plot_v2_exp3_decomposed.png`
-- `plot_v2_exp4_triadic.png`
-
-The Chinese experiment log `实验记录与观察.md` contains the v1/v2 comparison and the rationale for the corrections.
+`deep_experiments_v2.py` is self-contained and writes the v2 figures. The Chinese log `实验记录与观察.md` records the v1/v2 corrections.
 
 ## Limitations and next steps
 
-- The model uses small discrete state spaces and hand-designed likelihood and transition matrices.
-- The coupling update is a model-specific operational rule, not a complete derivation from canonical active inference.
-- Dyadic and triadic interactions are currently sequential/asynchronous; a synchronous-update control is still needed.
-- Directly setting an agent's Symbolic preference to another agent's state makes synchronization an explicit property of the controller. No-coupling, one-way-coupling, delayed-coupling, and heterogeneous-agent controls are needed before making stronger claims about emergence.
-- The surplus-jouissance measures remain theoretical hypotheses requiring further formal and empirical development.
+- Discrete 9-state spaces and hand-designed A/B matrices.
+- Coupling rules are model-specific, not derived from canonical active inference.
+- Updates are sequential (A→B→C); a synchronous control is still missing.
+- Inferred-other coupling tracks **where** the other is, not **what** the other wants.
+- Symbolic states have no linguistic content.
+- Surplus-jouissance measures are not a formalization of plus-de-jouir.
 
 ## Original files
 
-`agent.py`, `cofig.py`, and `simulations.py` contain the original prototype implementation. The v1 exploratory scripts are retained for comparison, but `deep_experiments_v2.py` is the recommended entry point for the corrected experiments.
+`agent.py`, `cofig.py`, and `simulations.py` contain the original prototype. v1 scripts are archived for comparison. Read `FINAL_REPORT.md` for the current argument.
