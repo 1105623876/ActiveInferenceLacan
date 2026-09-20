@@ -28,8 +28,12 @@ fake_utils.onehot = onehot; fake_utils.norm_dist = norm_dist; fake_utils.sample 
 fake_pymdp = types.ModuleType('pymdp'); fake_pymdp.utils = fake_utils
 sys.modules['pymdp'] = fake_pymdp; sys.modules['pymdp.utils'] = fake_utils
 
-sys.path.insert(0, '/mnt/d/vibecoding/ActiveInferenceLacan')
-os.chdir('/mnt/d/vibecoding/ActiveInferenceLacan')
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+SRC_ROOT = os.path.join(REPO_ROOT, 'src')
+OUTPUT_ROOT = os.path.join(REPO_ROOT, 'outputs', 'legacy')
+os.makedirs(OUTPUT_ROOT, exist_ok=True)
+sys.path.insert(0, SRC_ROOT)
+os.chdir(REPO_ROOT)
 from cofig import (residual, kl_divergence, calculate_G_policies, construct_policies,
     active_inference_with_planning, D_update, create_B_matrix, A,
     n_states, n_actions, softmax, log_stable, entropy,
@@ -311,7 +315,7 @@ for ax, (name, w_r, w_s, w_i) in zip(axes.flat, weight_configs):
     ax.legend(fontsize=8); ax.grid(alpha=0.3)
 plt.suptitle('Exp 1: Precision Weight Sweep — RSI Trajectories under Different w Configs', fontsize=14, y=1.01)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_exp1_weights.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_exp1_weights.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_exp1_weights.png")
 
 # --- Plot Exp 1b: J1 total comparison ---
@@ -324,7 +328,7 @@ ax.set_title('Exp 1b: Local Surplus (J1) under Different Precision Weights\nPsyc
 ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
 ax.legend(fontsize=9); ax.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_exp1b_j1.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_exp1b_j1.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_exp1b_j1.png")
 
 # --- Plot Exp 2: Long-range J3 ---
@@ -349,7 +353,7 @@ ax.set_xlabel('J3 value'); ax.set_ylabel('Count')
 ax.set_title(f'Exp 2: J3 Distribution (n=100)\nmean={J3_kl_lr.mean():.3f}, min={J3_kl_lr.min():.6f}\nzero count: {(J3_kl_lr==0).sum()}')
 ax.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_exp2_longrange.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_exp2_longrange.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_exp2_longrange.png")
 
 # --- Plot Exp 3: J2 vs A sharpness ---
@@ -371,7 +375,7 @@ ax.annotate(f'At A=identity: J2={exp3_results[1.0][1].min():.4f}',
             xytext=(0.85, exp3_results[0.7][1].mean()*0.7),
             arrowprops=dict(arrowstyle='->', color='green'), fontsize=10, color='green')
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_exp3_sharpness.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_exp3_sharpness.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_exp3_sharpness.png")
 
 # --- Plot Exp 4: Triadic collective dynamics ---
@@ -392,7 +396,7 @@ ax.set_xlabel('Timestep'); ax.set_ylabel('Dispersion metric')
 ax.set_title('Exp 4: The Other Emergence Metrics\nLower = more coordinated = stronger collective')
 ax.legend(); ax.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_exp4_triadic.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_exp4_triadic.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_exp4_triadic.png")
 
 print("\n✅ All deep experiments complete.")

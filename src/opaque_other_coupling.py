@@ -22,8 +22,9 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 import factorial_env_symbolic as f
+from project_paths import output_dir
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = str(output_dir("opaque_other"))
 
 ENV_INIT_SETS = [
     [5, 2, 6],
@@ -731,11 +732,11 @@ def write_report(results, seeds, env_labels, conditions, out_path, phase0_pass):
     lines.append('| 文件 | 说明 |')
     lines.append('|------|------|')
     lines.append('| opaque_other_coupling.py | 本脚本 |')
-    lines.append('| opaque_other_results.csv | 每 seed 明细 |')
-    lines.append('| opaque_other_summary.csv | 条件汇总 |')
-    lines.append('| plot_opaque_other.png | 六子图 |')
-    lines.append('| opaque_other_report.md | 本报告 |')
-    lines.append('| ROADMAP_OPAQUE_OTHER.md | 计划 |')
+    lines.append('| outputs/opaque_other/opaque_other_results.csv | 每 seed 明细 |')
+    lines.append('| outputs/opaque_other/opaque_other_summary.csv | 条件汇总 |')
+    lines.append('| outputs/opaque_other/plot_opaque_other.png | 六子图 |')
+    lines.append('| outputs/opaque_other/opaque_other_report.md | 本报告 |')
+    lines.append('| docs/roadmap/ROADMAP_OPAQUE_OTHER.md | 计划 |')
 
     with open(out_path, 'w', encoding='utf-8') as fp:
         fp.write('\n'.join(lines))

@@ -674,38 +674,38 @@ RSI 的 Borromean 性质在原论文和本项目中主要通过 message passing 
 项目在 WSL 中运行。假设仓库路径为：
 
 ```bash
-/mnt/d/vibecoding/ActiveInferenceLacan
+/Users/yui/Dev/vibecoding/ActiveInferenceLacan
 ```
 
 核心运行入口和结果文件：
 
 | 文件 | 用途 |
 |---|---|
-| `deep_experiments_v2.py` | v2 修正版四组基础实验 |
-| `factorial_env_symbolic.py` | shared/isolated × C_update_on/off 的 2×2 实验 |
-| `factorial_summary.csv` | 2×2 汇总结果 |
-| `factorial_timeseries.csv` | 2×2 每 seed、每 step 的时间序列 |
-| `env_init_sensitivity.py` | 环境初态敏感性实验 |
-| `env_init_summary.csv` | 环境初态汇总结果 |
-| `symbolic_coupling_sweep.py` | alpha=0.0–1.0 的耦合强度扫描 |
-| `coupling_mechanism_control.py` | off / hard / soft / delayed / noisy |
-| `delayed_initialization_sensitivity.py` | delayed 第一步初始化对照 |
-| `opaque_other_coupling.py` | 不透明他者：infer `q(s_j)` |
-| `opaque_other_report.md` | 不透明他者实验报告 |
-| `paper_claims_matrix_v2.md` | 可写 / 不可写主张 |
-| `实验记录与观察.md` | v1/v2 实验过程记录 |
-| `FINAL_REPORT.md` | 本综合研究报告 |
+| `src/deep_experiments_v2.py` | v2 修正版四组基础实验 |
+| `src/factorial_env_symbolic.py` | shared/isolated × C_update_on/off 的 2×2 实验 |
+| `outputs/factorial/factorial_summary.csv` | 2×2 汇总结果 |
+| `outputs/factorial/factorial_timeseries.csv` | 2×2 每 seed、每 step 的时间序列 |
+| `src/env_init_sensitivity.py` | 环境初态敏感性实验 |
+| `outputs/env_init/env_init_summary.csv` | 环境初态汇总结果 |
+| `src/symbolic_coupling_sweep.py` | alpha=0.0–1.0 的耦合强度扫描 |
+| `src/coupling_mechanism_control.py` | off / hard / soft / delayed / noisy |
+| `src/delayed_initialization_sensitivity.py` | delayed 第一步初始化对照 |
+| `src/opaque_other_coupling.py` | 不透明他者：infer `q(s_j)` |
+| `outputs/opaque_other/opaque_other_report.md` | 不透明他者实验报告 |
+| `docs/analysis/paper_claims_matrix_v2.md` | 可写 / 不可写主张 |
+| `docs/notes/实验记录与观察.md` | v1/v2 实验过程记录 |
+| `docs/analysis/FINAL_REPORT.md` | 本综合研究报告 |
 
 运行命令：
 
 ```bash
-cd /mnt/d/vibecoding/ActiveInferenceLacan
-python deep_experiments_v2.py
-python factorial_env_symbolic.py
-python env_init_sensitivity.py
-python symbolic_coupling_sweep.py
-python coupling_mechanism_control.py
-python opaque_other_coupling.py phase1
+cd /Users/yui/Dev/vibecoding/ActiveInferenceLacan
+python3 src/deep_experiments_v2.py
+python3 src/factorial_env_symbolic.py
+python3 src/env_init_sensitivity.py
+python3 src/symbolic_coupling_sweep.py
+python3 src/coupling_mechanism_control.py
+python3 src/opaque_other_coupling.py phase1
 ```
 
 ---

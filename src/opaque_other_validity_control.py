@@ -19,9 +19,10 @@ import numpy as np
 
 import factorial_env_symbolic as f
 import opaque_other_coupling as old
+from project_paths import output_dir
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
-OLD_CSV = os.path.join(OUT_DIR, 'opaque_other_results.csv')
+OUT_DIR = str(output_dir("observer_validity"))
+OLD_CSV = os.path.join(str(output_dir("opaque_other")), 'opaque_other_results.csv')
 
 ENV_INITS = {
     '5_2_6': [5, 2, 6],
@@ -314,7 +315,7 @@ def verify_legacy():
     print('=' * 70)
     saved = load_old_csv()
     if not saved:
-        print('  FAIL: opaque_other_results.csv missing')
+        print('  FAIL: outputs/opaque_other/opaque_other_results.csv missing')
         return False
     checks = [
         ('hard', None, 'hard', ''),
@@ -432,7 +433,7 @@ def write_report(results, traj_eq, legacy_ok, path):
 
     lines.append('## 0. Legacy 复现\n')
     lines.append(f'- 旧 `opaque_other_coupling.run_trial` 对 hard / infer@1 / infer@0.4、')
-    lines.append(f'  两组 env_init、20 seeds 与 `opaque_other_results.csv` 逐 seed 对照：')
+    lines.append(f'  两组 env_init、20 seeds 与 `outputs/opaque_other/opaque_other_results.csv` 逐 seed 对照：')
     lines.append(f'  **{"PASS" if legacy_ok else "FAIL"}**')
     lines.append('- 新 harness 因 RNG 重构，不要求逐 seed 复现旧轨迹。\n')
 
@@ -578,7 +579,7 @@ def write_report(results, traj_eq, legacy_ok, path):
     lines.append('| 文件 | 说明 |')
     lines.append('|------|------|')
     lines.append('| opaque_other_validity_control.py | 本 harness |')
-    lines.append('| opaque_other_validity_results.csv | 每 seed 明细 |')
+    lines.append('| outputs/observer_validity/opaque_other_validity_results.csv | 每 seed 明细 |')
     lines.append('| opaque_other_validity_report.md | 本报告 |')
 
     with open(path, 'w', encoding='utf-8') as fp:

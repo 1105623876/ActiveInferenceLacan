@@ -34,8 +34,9 @@ import math
 import numpy as np
 
 import factorial_env_symbolic as f
+from project_paths import output_dir
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = str(output_dir("observer_schedule"))
 
 ENV_INITS = {
     '5_2_6': [5, 2, 6],
@@ -714,10 +715,10 @@ def write_report(rows, seeds, path):
     lines.append('## 文件\n')
     lines.append('| 文件 | 说明 |')
     lines.append('|------|------|')
-    lines.append('| opaque_other_observer_schedule.py | 本脚本 |')
-    lines.append('| opaque_other_observer_schedule_results.csv | 每 seed 每格 |')
-    lines.append('| opaque_other_observer_schedule_summary.csv | 格子汇总 |')
-    lines.append('| opaque_other_observer_schedule_report.md | 本报告 |')
+    lines.append('| src/opaque_other_observer_schedule.py | 本脚本 |')
+    lines.append('| outputs/observer_schedule/opaque_other_observer_schedule_results.csv | 每 seed 每格 |')
+    lines.append('| outputs/observer_schedule/opaque_other_observer_schedule_summary.csv | 格子汇总 |')
+    lines.append('| outputs/observer_schedule/opaque_other_observer_schedule_report.md | 本报告 |')
 
     with open(path, 'w', encoding='utf-8') as fp:
         fp.write('\n'.join(lines))
@@ -841,7 +842,7 @@ def run_grid(seeds, resume_path=None):
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else 'full'
     if mode not in ('smoke', 'full'):
-        print('usage: python opaque_other_observer_schedule.py [smoke|full]')
+        print('usage: python3 src/opaque_other_observer_schedule.py [smoke|full]')
         raise SystemExit(2)
     seeds = SMOKE_SEEDS if mode == 'smoke' else FULL_SEEDS
     print('=' * 70, flush=True)

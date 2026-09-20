@@ -4,14 +4,14 @@ A3 publication lock — confirmatory simulation
 
 Protocol: A3-v1.0. Does not modify or overwrite any A2 script/CSV/report.
 
-    python publication_lock_a3.py stage0
-    python publication_lock_a3.py smoke
-    python publication_lock_a3.py stage2
-    python publication_lock_a3.py stage3
-    python publication_lock_a3.py stage4
-    python publication_lock_a3.py stage5
-    python publication_lock_a3.py stage6
-    python publication_lock_a3.py pipeline
+    python3 src/publication_lock_a3.py stage0
+    python3 src/publication_lock_a3.py smoke
+    python3 src/publication_lock_a3.py stage2
+    python3 src/publication_lock_a3.py stage3
+    python3 src/publication_lock_a3.py stage4
+    python3 src/publication_lock_a3.py stage5
+    python3 src/publication_lock_a3.py stage6
+    python3 src/publication_lock_a3.py pipeline
 """
 from __future__ import annotations
 
@@ -29,8 +29,11 @@ import numpy as np
 
 import factorial_env_symbolic as f
 import opaque_other_observer_schedule as a2
+from project_paths import output_dir
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+SRC_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = str(output_dir("a3"))
+SHARD_DIR = str(output_dir("a3/shards"))
 
 # Frozen design
 SIGMA = 0.40
@@ -756,7 +759,7 @@ def run_grid(env, env_label, seeds, T, filters, result_path, npz_prefix, resume=
     n_tot = len(seeds) * len(SCHEDULES) * len(filters)
     done = 0
     import glob
-    existing_shards = glob.glob(os.path.join(OUT_DIR, f'publication_lock_a3_timeseries_{npz_prefix}_*.npz'))
+    existing_shards = glob.glob(os.path.join(SHARD_DIR, f'publication_lock_a3_timeseries_{npz_prefix}_*.npz'))
     shard_i = len(existing_shards)
     pack = {
         'S_pre': [], 'S_post': [], 'aligned': [],
@@ -799,7 +802,7 @@ def run_grid(env, env_label, seeds, T, filters, result_path, npz_prefix, resume=
                         pack['H_q_act'].append(m['H_t'])
                         pack['meta'].append('|'.join(str(x) for x in key))
                         if len(pack['meta']) >= 100:
-                            shard = os.path.join(OUT_DIR, f'publication_lock_a3_timeseries_{npz_prefix}_{shard_i:03d}.npz')
+                            shard = os.path.join(SHARD_DIR, f'publication_lock_a3_timeseries_{npz_prefix}_{shard_i:03d}.npz')
                             _flush_pack(pack, shard)
                             shard_i += 1
                     except Exception:
@@ -815,7 +818,7 @@ def run_grid(env, env_label, seeds, T, filters, result_path, npz_prefix, resume=
                         print(f'  {env_label} {done}/{n_tot} elapsed={time.time()-t0:.1f}s', flush=True)
     finally:
         if pack['meta']:
-            shard = os.path.join(OUT_DIR, f'publication_lock_a3_timeseries_{npz_prefix}_{shard_i:03d}.npz')
+            shard = os.path.join(SHARD_DIR, f'publication_lock_a3_timeseries_{npz_prefix}_{shard_i:03d}.npz')
             _flush_pack(pack, shard)
         fp.close()
     return {'S_pre': [], 'S_post': [], 'aligned': [], 'misID_act': [], 'NLL_act': [], 'Brier_act': [], 'H_q_act': [], 'meta': []}
@@ -1117,7 +1120,7 @@ def write_statistics_and_report(rows, t_start, t_end, extra_manifest):
     rsi = np.mean([r['any_full_rsi'] for r in rows if r['env_init'] == env])
     rep.append(f'any-round full RSI alignment rate (primary cells pooled) = {rsi:.4f}. Structural R/I preferences remain agent-specific.')
     rep.append('\n## Files\n')
-    rep.append('See publication_lock_a3_manifest.json for SHA-256.')
+    rep.append('See outputs/a3/publication_lock_a3_manifest.json for SHA-256.')
     report_path = os.path.join(OUT_DIR, 'publication_lock_a3_report.md')
     with open(report_path, 'w', encoding='utf-8') as fp:
         fp.write('\n'.join(rep) + '\n')
@@ -1130,9 +1133,9 @@ def write_statistics_and_report(rows, t_start, t_end, extra_manifest):
 
     man = {
         'protocol': 'A3-v1.0',
-        'script_sha256': file_sha256(os.path.join(OUT_DIR, 'publication_lock_a3.py')),
-        'a2_script_sha256': file_sha256(os.path.join(OUT_DIR, 'opaque_other_observer_schedule.py')),
-        'factorial_sha256': file_sha256(os.path.join(OUT_DIR, 'factorial_env_symbolic.py')),
+        'script_sha256': file_sha256(os.path.join(SRC_DIR, 'publication_lock_a3.py')),
+        'a2_script_sha256': file_sha256(os.path.join(SRC_DIR, 'opaque_other_observer_schedule.py')),
+        'factorial_sha256': file_sha256(os.path.join(SRC_DIR, 'factorial_env_symbolic.py')),
         'python': sys.version.replace('\n', ' '),
         'numpy': np.__version__,
         'platform': platform.platform(),
@@ -1177,8 +1180,7 @@ def write_statistics_and_report(rows, t_start, t_end, extra_manifest):
 
 def merge_npz():
     import glob
-    paths = sorted(glob.glob(os.path.join(OUT_DIR, 'publication_lock_a3_timeseries_*.npz')))
-    paths = [p for p in paths if not p.endswith('publication_lock_a3_timeseries.npz')]
+    paths = sorted(glob.glob(os.path.join(SHARD_DIR, 'publication_lock_a3_timeseries_*.npz')))
     if not paths:
         return
     keys = ['S_pre', 'S_post', 'aligned', 'misID_act', 'NLL_act', 'Brier_act', 'H_q_act', 'meta']
@@ -1243,9 +1245,7 @@ def backfill_timeseries():
     print('=== BACKFILL TIMESERIES ===', flush=True)
     rows = load_results_csv(os.path.join(OUT_DIR, 'publication_lock_a3_results.csv'))
     have = set()
-    for p in glob.glob(os.path.join(OUT_DIR, 'publication_lock_a3_timeseries_*.npz')):
-        if p.endswith(os.path.join('', 'publication_lock_a3_timeseries.npz')):
-            continue
+    for p in glob.glob(os.path.join(SHARD_DIR, 'publication_lock_a3_timeseries_*.npz')):
         z = np.load(p, allow_pickle=True)
         for m in z['meta']:
             have.add(str(m))
@@ -1257,7 +1257,7 @@ def backfill_timeseries():
     print(f'  csv={len(rows)} npz={len(have)} missing={len(missing)}', flush=True)
     pack = {k: [] for k in ['S_pre', 'S_post', 'aligned', 'misID_act', 'NLL_act', 'Brier_act', 'H_q_act', 'meta']}
     import glob as _glob
-    existing_bf = _glob.glob(os.path.join(OUT_DIR, 'publication_lock_a3_timeseries_backfill_*.npz'))
+    existing_bf = _glob.glob(os.path.join(SHARD_DIR, 'publication_lock_a3_timeseries_backfill_*.npz'))
     shard_i = 920 + len(existing_bf)
     t0 = time.time()
     for k, r in enumerate(missing, 1):
@@ -1281,12 +1281,12 @@ def backfill_timeseries():
         pack['H_q_act'].append(m['H_t'])
         pack['meta'].append(f"{r['seed']}|{r['env_init']}|{r['schedule']}|{r['observer']}")
         if len(pack['meta']) >= 100:
-            _flush_pack(pack, os.path.join(OUT_DIR, f'publication_lock_a3_timeseries_backfill_{shard_i:03d}.npz'))
+            _flush_pack(pack, os.path.join(SHARD_DIR, f'publication_lock_a3_timeseries_backfill_{shard_i:03d}.npz'))
             shard_i += 1
         if k % 20 == 0:
             print(f'  backfill {k}/{len(missing)} {time.time()-t0:.1f}s', flush=True)
     if pack['meta']:
-        _flush_pack(pack, os.path.join(OUT_DIR, f'publication_lock_a3_timeseries_backfill_{shard_i:03d}.npz'))
+        _flush_pack(pack, os.path.join(SHARD_DIR, f'publication_lock_a3_timeseries_backfill_{shard_i:03d}.npz'))
     print('BACKFILL DONE', flush=True)
     return True
 

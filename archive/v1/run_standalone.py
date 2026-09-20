@@ -39,9 +39,13 @@ fake_pymdp.__path__ = []
 sys.modules['pymdp'] = fake_pymdp
 sys.modules['pymdp.utils'] = fake_utils
 
-# Now import the agent module
-sys.path.insert(0, '/tmp/ActiveInferenceLacan')
-os.chdir('/tmp/ActiveInferenceLacan')
+# Now import the agent module from the current repository layout.
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+SRC_ROOT = os.path.join(REPO_ROOT, 'src')
+OUTPUT_ROOT = os.path.join(REPO_ROOT, 'outputs', 'legacy')
+os.makedirs(OUTPUT_ROOT, exist_ok=True)
+sys.path.insert(0, SRC_ROOT)
+os.chdir(REPO_ROOT)
 
 from agent import Subject, Sync, Three
 
@@ -108,7 +112,7 @@ ax.set_title('Individual FEP-RSI: Borromean Knot Dynamics', fontsize=14)
 ax.set_xlim3d(0, 10); ax.set_ylim3d(0, 10); ax.set_zlim3d(0, 10)
 ax.grid(False)
 plt.tight_layout()
-plt.savefig('/tmp/ActiveInferenceLacan/plot_individual.png', dpi=100, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_individual.png'), dpi=100, bbox_inches='tight')
 print("  Saved: plot_individual.png")
 
 # Plot 2: Dyadic
@@ -128,7 +132,7 @@ ax.set_xlim3d(0, 8); ax.set_ylim3d(0, 8); ax.set_zlim3d(0, 8)
 ax.grid(False)
 ax.legend(loc='upper right', fontsize=10)
 plt.tight_layout()
-plt.savefig('/tmp/ActiveInferenceLacan/plot_dyadic.png', dpi=100, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_dyadic.png'), dpi=100, bbox_inches='tight')
 print("  Saved: plot_dyadic.png")
 
 # Plot 3: Triadic
@@ -148,7 +152,7 @@ ax.set_xlim3d(0, 10); ax.set_ylim3d(0, 10); ax.set_zlim3d(0, 10)
 ax.grid(False)
 ax.legend(loc='upper right', fontsize=10)
 plt.tight_layout()
-plt.savefig('/tmp/ActiveInferenceLacan/plot_triadic.png', dpi=100, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_triadic.png'), dpi=100, bbox_inches='tight')
 print("  Saved: plot_triadic.png")
 
 print("\n✅ All simulations completed successfully!")

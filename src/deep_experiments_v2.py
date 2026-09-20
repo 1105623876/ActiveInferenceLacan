@@ -18,6 +18,9 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from project_paths import output_dir
+
+OUT_DIR = str(output_dir("exploratory_v2"))
 
 # ============================================================
 # Clean reimplementation — no dependency on buggy cofig.py
@@ -470,7 +473,7 @@ for ax, (name, wr, ws, wi) in zip(axes.flat, ablation_configs):
     ax.legend(fontsize=8); ax.grid(alpha=0.3)
 plt.suptitle('Exp 1 (revised): Symbolic-coupling ablation — isolated envs, 9 states', fontsize=13, y=1.01)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_v2_exp1_ablation.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUT_DIR, 'plot_v2_exp1_ablation.png'), dpi=120, bbox_inches='tight')
 
 # Exp 2: 20-seed J3 curves
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -489,7 +492,7 @@ ax.set_xlabel('Second-half mean J3'); ax.set_ylabel('Seed count')
 ax.set_title('Exp 2: Convergence distribution across 20 seeds')
 ax.legend(); ax.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_v2_exp2_multiseed.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUT_DIR, 'plot_v2_exp2_multiseed.png'), dpi=120, bbox_inches='tight')
 
 # Exp 3: decomposed G
 fig, axes = plt.subplots(1, 3, figsize=(18, 5))
@@ -511,7 +514,7 @@ ax.set_xlabel('A sharpness'); ax.set_ylabel('KL term mean')
 ax.set_title('KL term (the non-trivial part)'); ax.legend(); ax.grid(alpha=0.3)
 plt.suptitle('Exp 3 (revised): Decomposed G — separating H_A (trivial) from KL (non-trivial)', fontsize=13, y=1.02)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_v2_exp3_decomposed.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUT_DIR, 'plot_v2_exp3_decomposed.png'), dpi=120, bbox_inches='tight')
 
 # Exp 4: triadic isolated
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -529,7 +532,7 @@ ax.set_xlabel('Timestep'); ax.set_ylabel('Dispersion')
 ax.set_title('Exp 4: The Other emergence metrics (isolated envs)')
 ax.legend(); ax.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_v2_exp4_triadic.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUT_DIR, 'plot_v2_exp4_triadic.png'), dpi=120, bbox_inches='tight')
 
 print("\n  Saved: plot_v2_exp1_ablation.png, plot_v2_exp2_multiseed.png, plot_v2_exp3_decomposed.png, plot_v2_exp4_triadic.png")
 print("\n=== DONE ===")

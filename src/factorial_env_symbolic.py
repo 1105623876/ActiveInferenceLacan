@@ -40,6 +40,7 @@ import itertools
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from project_paths import output_dir
 
 # ============================================================
 # 复制 deep_experiments_v2.py 的核心模型函数
@@ -247,7 +248,7 @@ CONV_THRESHOLD = 0.01
 T_STEPS = 50
 SEEDS = list(range(20))
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = str(output_dir("factorial"))
 
 
 # ============================================================
@@ -692,12 +693,12 @@ v2 Exp 4 报告 sym_var 从 1.556 收敛到 0.000。本实验的 isolated + C_up
 
 | 文件 | 说明 |
 |------|------|
-| factorial_env_symbolic.py | 本实验脚本（独立，不修改 deep_experiments_v2.py） |
-| factorial_results.csv | 每 seed 每条件的详细记录 |
-| factorial_summary.csv | 四条件汇总（跨 20 seeds 聚合） |
-| factorial_timeseries.csv | 每 seed 每条件每 step 的时间序列 |
-| plot_factorial_2x2.png | 四条件 sym_var 曲线 + 收敛率 + 分布图 |
-| factorial_report.md | 本报告 |
+| src/factorial_env_symbolic.py | 本实验脚本（独立，不修改 src/deep_experiments_v2.py） |
+| outputs/factorial/factorial_results.csv | 每 seed 每条件的详细记录 |
+| outputs/factorial/factorial_summary.csv | 四条件汇总（跨 20 seeds 聚合） |
+| outputs/factorial/factorial_timeseries.csv | 每 seed 每条件每 step 的时间序列 |
+| outputs/factorial/plot_factorial_2x2.png | 四条件 sym_var 曲线 + 收敛率 + 分布图 |
+| outputs/factorial/factorial_report.md | 本报告 |
 """
     with open(out_path, 'w', encoding='utf-8') as f:
         f.write(report)

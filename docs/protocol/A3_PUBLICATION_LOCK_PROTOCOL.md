@@ -52,20 +52,20 @@ Report effect estimates before p-values, with seed-cluster percentile-bootstrap 
 Run from the repository root with:
 
 ```bash
-python3 publication_lock_a3.py pipeline
+python3 src/publication_lock_a3.py pipeline
 ```
 
 The canonical archive is:
 
-- `publication_lock_a3_results.csv`;
-- `publication_lock_a3_summary.csv`;
-- `publication_lock_a3_timeseries.npz`;
-- `publication_lock_a3_manifest.json`;
-- `publication_lock_a3_statistics.md`;
-- `publication_lock_a3_report.md`;
-- `publication_lock_a3_regression.md`.
+- `outputs/a3/publication_lock_a3_results.csv`;
+- `outputs/a3/publication_lock_a3_summary.csv`;
+- `outputs/a3/publication_lock_a3_timeseries.npz`;
+- `outputs/a3/publication_lock_a3_manifest.json`;
+- `outputs/a3/publication_lock_a3_statistics.md`;
+- `outputs/a3/publication_lock_a3_report.md`;
+- `outputs/a3/publication_lock_a3_regression.md`.
 
-The manifest records SHA-256 hashes for the A3 script, its A2 and factorial dependencies, the merged results, the summary, the NPZ, and the derived reports. Batch shards and recovery outputs are working files and are not part of the release.
+The manifest records SHA-256 hashes for `src/publication_lock_a3.py`, its A2 and factorial dependencies, the merged results, the summary, the NPZ, and the derived reports. Batch shards and recovery outputs are working files under `outputs/a3/shards/` and are not part of the release.
 
 ## Interpretation boundary
 

@@ -45,9 +45,13 @@ fake_utils.onehot = onehot; fake_utils.norm_dist = norm_dist; fake_utils.sample 
 fake_pymdp = types.ModuleType('pymdp'); fake_pymdp.utils = fake_utils
 sys.modules['pymdp'] = fake_pymdp; sys.modules['pymdp.utils'] = fake_utils
 
-# Import original code
-sys.path.insert(0, '/mnt/d/vibecoding/ActiveInferenceLacan')
-os.chdir('/mnt/d/vibecoding/ActiveInferenceLacan')
+# Import original code from the current repository layout.
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+SRC_ROOT = os.path.join(REPO_ROOT, 'src')
+OUTPUT_ROOT = os.path.join(REPO_ROOT, 'outputs', 'legacy')
+os.makedirs(OUTPUT_ROOT, exist_ok=True)
+sys.path.insert(0, SRC_ROOT)
+os.chdir(REPO_ROOT)
 from agent import Subject, Sync, Three
 from cofig import residual, kl_divergence, calculate_G_policies, construct_policies, \
     get_expected_states, get_expected_observations, entropy, log_stable, softmax, A, n_states, n_actions
@@ -291,7 +295,7 @@ ax.legend(); ax.grid(alpha=0.3)
 ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
 
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_surplus_individual.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_surplus_individual.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_surplus_individual.png")
 
 # Plot 2: J3 dyadic gap
@@ -319,7 +323,7 @@ ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
 ax.legend(); ax.grid(alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_surplus_dyadic.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_surplus_dyadic.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_surplus_dyadic.png")
 
 # Plot 3: Conceptual summary - the hierarchy of surplus
@@ -337,11 +341,11 @@ ax.set_title('Hierarchy of Surplus Jouissance\nAll three layers persistently > 0
 ax.axhline(0, color='black', linewidth=0.5, linestyle='--')
 ax.legend(loc='upper right'); ax.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig('/mnt/d/vibecoding/ActiveInferenceLacan/plot_surplus_hierarchy.png', dpi=120, bbox_inches='tight')
+plt.savefig(os.path.join(OUTPUT_ROOT, 'plot_surplus_hierarchy.png'), dpi=120, bbox_inches='tight')
 print("  Saved: plot_surplus_hierarchy.png")
 
 print("\n✅ Surplus jouissance formalization complete.")
-print("   Files at: /mnt/d/vibecoding/ActiveInferenceLacan/")
+print("   Files at: outputs/legacy/")
 print("   - surplus_jouissance.py (this script)")
 print("   - plot_surplus_individual.png  (J1 + J2 over time)")
 print("   - plot_surplus_dyadic.png      (J3 + per-agent surplus)")

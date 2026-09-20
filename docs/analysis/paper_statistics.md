@@ -1,7 +1,7 @@
 # Paper Statistics Audit
 
 > 基于已有结果文件的统计分析。不运行新模拟，不修改已有脚本。
-> 数据来源：coupling_mechanism_control_results.csv (n=20/条件), delayed_initialization_results.csv (n=100/条件)
+> 数据来源：`outputs/coupling_mechanism_control/coupling_mechanism_control_results.csv` (n=20/条件), `outputs/delayed_initialization/delayed_initialization_results.csv` (n=100/条件)
 
 ## 统计方法
 

@@ -120,7 +120,7 @@ env_init  ∈ {[5,2,6], [8,8,8]}
 `noisy` 保持旧定义（`ε=0.2`），作为“涂糊真值”的基线，不按 σ 改写。  
 `hard` / `off` 不依赖 σ。
 
-建议 20 seeds、50 steps，统计口径与 `paper_claims_matrix_v2.md` 一致（bootstrap CI，不用 ad-hoc 5%）。
+建议 20 seeds、50 steps，统计口径与 `docs/analysis/paper_claims_matrix_v2.md` 一致（bootstrap CI，不用 ad-hoc 5%）。
 
 若 `infer` 与 `noisy` 的 CI 完全重叠，且 misID / lag 也无稳定差，则本路径失败，不要靠加 seed 硬撑。
 
@@ -199,11 +199,11 @@ env_init  ∈ {[5,2,6], [8,8,8]}
 
 | 文件 | 用途 |
 |---|---|
-| `opaque_other_coupling.py` | 主实验脚本，import `factorial_env_symbolic` |
-| `opaque_other_results.csv` | 每 seed 明细 |
-| `opaque_other_summary.csv` | 条件汇总 |
-| `plot_opaque_other.png` | 收敛率、time-to-sync、misID |
-| `opaque_other_report.md` | 结果 + 可写/不可写主张 |
+| `src/opaque_other_coupling.py` | 主实验脚本，import `src/factorial_env_symbolic.py` |
+| `outputs/opaque_other/opaque_other_results.csv` | 每 seed 明细 |
+| `outputs/opaque_other/opaque_other_summary.csv` | 条件汇总 |
+| `outputs/opaque_other/plot_opaque_other.png` | 收敛率、time-to-sync、misID |
+| `outputs/opaque_other/opaque_other_report.md` | 结果 + 可写/不可写主张 |
 
 实现约束：
 

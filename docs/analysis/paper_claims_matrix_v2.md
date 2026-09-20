@@ -262,12 +262,12 @@
 
 | 实验 | 脚本 | seeds | 核心产出 |
 |------|------|-------|----------|
-| factorial 2×2 | factorial_env_symbolic.py | 20 | A1, A3 |
-| env_init sensitivity | env_init_sensitivity.py | 20 | A4 (5 env_inits, hard), A5 |
-| coupling strength sweep | symbolic_coupling_sweep.py | 20 | A1, A2, A4 (2 env_inits, alpha sweep), B2 |
-| coupling mechanism control | coupling_mechanism_control.py | 20 | A1, A2, A3, B3, B4, B5 |
-| delayed init sensitivity | delayed_initialization_sensitivity.py | 100 | B6 (McNemar 配对检验) |
-| opaque other coupling | opaque_other_coupling.py | 20 | A7, A8, B7, B8 |
+| factorial 2×2 | `src/factorial_env_symbolic.py` | 20 | A1, A3 |
+| env_init sensitivity | `src/env_init_sensitivity.py` | 20 | A4 (5 env_inits, hard), A5 |
+| coupling strength sweep | `src/symbolic_coupling_sweep.py` | 20 | A1, A2, A4 (2 env_inits, alpha sweep), B2 |
+| coupling mechanism control | `src/coupling_mechanism_control.py` | 20 | A1, A2, A3, B3, B4, B5 |
+| delayed init sensitivity | `src/delayed_initialization_sensitivity.py` | 100 | B6 (McNemar 配对检验) |
+| opaque other coupling | `src/opaque_other_coupling.py` | 20 | A7, A8, B7, B8 |
 
 ## 建议的论文表述模板
 
@@ -286,6 +286,6 @@
 
 | 文件 | 说明 |
 |------|------|
-| paper_statistics.md | 统计检验详细结果（McNemar + bootstrap CI） |
-| paper_claims_matrix_v2.md | 本文件，主张分类 v2 |
-| paper_tables.csv | 所有条件的统计汇总表（26 行，32 列） |
+| `docs/analysis/paper_statistics.md` | 统计检验详细结果（McNemar + bootstrap CI） |
+| `docs/analysis/paper_claims_matrix_v2.md` | 本文件，主张分类 v2 |
+| `outputs/manuscript/paper_tables.csv` | 所有条件的统计汇总表（26 行，32 列） |

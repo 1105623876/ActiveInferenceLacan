@@ -30,11 +30,12 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 import factorial_env_symbolic as f
+from project_paths import output_dir
 
 # ============================================================
 # 配置
 # ============================================================
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = str(output_dir("coupling_sweep"))
 
 ENV_MODE = 'isolated'
 ENV_INIT_SETS = [
