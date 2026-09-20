@@ -14,3 +14,20 @@ plot_surplus_*.png
 plot_individual.png
 plot_dyadic.png
 plot_triadic.png
+
+# A3 batch/recovery intermediates; keep only the merged canonical NPZ.
+publication_lock_a3_timeseries_primary_*.npz
+publication_lock_a3_timeseries_robust_*.npz
+publication_lock_a3_timeseries_backfill_*.npz
+publication_lock_a3_error.log
+publication_lock_a3_smoke_summary.csv
+opaque_other_observer_schedule_*_smoke.csv
+opaque_other_observer_schedule_*_smoke.md
+_a3_batch_driver.py
+
+# Local manuscript release candidate; intentionally not uploaded.
+paper/
+
+# Generated exploratory data kept locally.
+coupling_sweep_timeseries.csv
+paper_claims_matrix.md

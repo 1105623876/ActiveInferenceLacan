@@ -1,85 +1,69 @@
-# An Active-Inference Model of Lacanian Psychoanalysis
+# ActiveInferenceLacan: Reproduction and Mechanism Audit
 
-This repository contains a small computational prototype inspired by Lacanian psychoanalysis and the free energy principle (FEP). It should be read as a conceptual toy model rather than as a validated neural, clinical, or canonical FEP implementation.
+This repository is a mechanism-audit continuation of the Lacan–FEP toy model. It is not a republication of the original paper. The upstream work is Li & Li (2025), *Formalizing Lacanian Psychoanalysis through the Free Energy Principle*, together with the original [DigitalTwinMind/ActiveInferenceLacan](https://github.com/DigitalTwinMind/ActiveInferenceLacan) repository.
 
-The original model represents Lacan's three registers as three coupled active-inference units:
+The continuation keeps the model deliberately small and makes its coordination mechanisms auditable: shared versus isolated environments, Symbolic preference coupling, direct versus inferred access to another agent's Symbolic position, and observer memory under synchronous versus sequential updating.
 
-- **Real (R):** bodily and affective dynamics;
-- **Symbolic (S):** language-like and socially mediated states;
-- **Imaginary (I):** perceptual and self-image dynamics.
+## Scope and non-claims
 
-At the individual level, prediction-error coupling between R, S, and I is used as a computational analogue of their Borromean interdependence. At the dyadic level, an agent's Symbolic preference is set by the other agent's Symbolic state, providing a toy implementation of desire as generalized synchronization. At the triadic level, a cyclic desire structure is used to study collective Symbolic dynamics as a possible computational analogue of the Lacanian Other.
+The results are computational observations in a fixed nine-state, three-agent toy model. They do not prove or measure the Lacanian Big Other, desire, jouissance, or clinical validity. The observer estimates another agent's discrete Symbolic position; it does not infer that agent's desire.
 
-<p align="center">
-  <img src="RGM.png" width="600" alt="Recurrent generative model">
-</p>
+Both update controls are present in the frozen A3 release: `sync` and `seq_ABC`. The earlier statement that a synchronous control was missing no longer applies.
 
-<p align="center">
-  <img src="WFG.png" width="400" alt="Free-energy coupling diagram">
-</p>
+## Frozen A3 release
 
-## Reference
+The public, confirmatory evidence layer is the A3-v1.0 archive:
 
-The original model is based on:
+- `A3_PUBLICATION_LOCK_PROTOCOL.md` — frozen design, endpoint, schedules, observer family, and analysis plan;
+- `publication_lock_a3.py` — reproducibility entry point;
+- `publication_lock_a3_results.csv` — 5,200 trajectory-level records;
+- `publication_lock_a3_summary.csv` — 26 frozen cell summaries;
+- `publication_lock_a3_timeseries.npz` — merged per-round time series;
+- `publication_lock_a3_statistics.md`, `publication_lock_a3_report.md`, and `publication_lock_a3_regression.md` — derived report and regression checks;
+- `publication_lock_a3_manifest.json` — SHA-256 manifest for the canonical A3 code and outputs.
 
-> Li, L. and Li, C. (2025). *Formalizing Lacanian Psychoanalysis through the Free Energy Principle*. Frontiers in Psychology, 16, 1574650.
+The A3 archive contains the two main effects used by the manuscript:
 
-- [Paper](https://doi.org/10.3389/fpsyg.2025.1574650)
-- [Original repository](https://github.com/DigitalTwinMind/ActiveInferenceLacan)
+| Effect | Estimate | 95% CI |
+|---|---:|---:|
+| Memory contrast, `lambda=0 - lambda=1`, schedule-averaged second-half occupancy | 0.6599 | [0.6279, 0.6906] |
+| Hard-observer schedule contrast, `seq_ABC - sync`, second-half occupancy | 0.7639 | [0.7000, 0.8239] |
 
-```bibtex
-@article{li2025formalizing,
-  title   = {Formalizing Lacanian Psychoanalysis Through the Free Energy Principle},
-  author  = {Li, Lingyu and Li, Chunbo},
-  journal = {Frontiers in Psychology},
-  volume  = {16},
-  pages   = {1574650},
-  year    = {2025},
-  doi     = {10.3389/fpsyg.2025.1574650}
-}
-```
+## Reproduce A3
 
-## This continuation
-
-The extension in this repository explores what follows from the original toy model rather than claiming to prove Lacanian theory. The current synthesis is the Chinese report `FINAL_REPORT.md`; allowed and disallowed claims are listed in `paper_claims_matrix_v2.md`.
-
-After correcting the original implementation, later experiments unconfound shared environment from inter-agent preference coupling, compare several coupling rules, and replace direct copying with a filtered belief about the other's Symbolic **position** (not their desire):
-
-```text
-S_j  →  noisy social observation  →  q(s_j)  →  C_i
-```
-
-The strongest claims supported by the current experiments are:
-
-1. Inter-agent Symbolic preference coupling is the primary driver of Symbolic consensus in this model; hard copying is not necessary.
-2. A shared physical environment is only a weak alternative pathway.
-3. When the other is visible only through a noisy channel, a filtered belief still produces consensus.
-4. Under high opacity, agents can share a Symbolic coordinate while still misidentifying one another's position after they have aligned.
-
-These are operational computational analogues. They are not a clinical model, a proof of Lacanian psychoanalysis, or a canonical FEP implementation. Surplus-jouissance proxies (preference mismatch, expected-free-energy floor, inter-subjective Symbolic gap) remain hypotheses and are **not** identified with plus-de-jouir.
-
-## Reproduction
-
-From the repository root (Windows or WSL):
+The archived run used Python 3.10.6 and NumPy 2.2.6. From the repository root, install those dependencies in the environment of your choice and run:
 
 ```bash
-python deep_experiments_v2.py          # corrected v2 baseline (no pymdp)
-python factorial_env_symbolic.py       # shared/isolated × coupling on/off
-python coupling_mechanism_control.py   # off / hard / soft / delayed / noisy
-python opaque_other_coupling.py phase1 # inferred-other position coupling
+python3 publication_lock_a3.py pipeline
 ```
 
-`deep_experiments_v2.py` is self-contained and writes the v2 figures. The Chinese log `实验记录与观察.md` records the v1/v2 corrections.
+The command resumes from the committed canonical archive and regenerates the A3 analysis outputs. It should recover the two estimates and confidence intervals above. The A3 script imports `factorial_env_symbolic.py` and `opaque_other_observer_schedule.py`; both are included as frozen upstream-control dependencies. The complete grid is 5,200 trajectories × 200 rounds, so a clean rerun is substantially more expensive than checking the committed archive.
 
-## Limitations and next steps
+For a direct checksum check of the released data and reports:
 
-- Discrete 9-state spaces and hand-designed A/B matrices.
-- Coupling rules are model-specific, not derived from canonical active inference.
-- Updates are sequential (A→B→C); a synchronous control is still missing.
-- Inferred-other coupling tracks **where** the other is, not **what** the other wants.
-- Symbolic states have no linguistic content.
-- Surplus-jouissance measures are not a formalization of plus-de-jouir.
+```bash
+shasum -a 256 \
+  publication_lock_a3.py \
+  publication_lock_a3_results.csv \
+  publication_lock_a3_summary.csv \
+  publication_lock_a3_timeseries.npz \
+  publication_lock_a3_statistics.md \
+  publication_lock_a3_report.md \
+  publication_lock_a3_regression.md
+```
 
-## Original files
+Data availability: the canonical archive is identified by the GitHub tag `rc-0.2` (and the commit pointed to by that tag). Batch shards, smoke outputs, recovery logs, caches, and local TeX build products are intentionally excluded.
 
-`agent.py`, `cofig.py`, and `simulations.py` contain the original prototype. v1 scripts are archived for comparison. Read `FINAL_REPORT.md` for the current argument.
+## Exploratory and precursor material
+
+The root-level `factorial_*`, `opaque_other_*`, `coupling_*`, `delayed_initialization_*`, `env_init_*`, and `deep_experiments_v2.py` files document precursor controls and exploratory analyses. They are not substitutes for the frozen A3 protocol. The A3 files listed above are the only files used for the confirmatory memory and schedule contrasts.
+
+## Local manuscript package
+
+The complete RC 0.2 manuscript, supplementary material, figures, table generators, and LaTeX build are kept locally under `paper/`. `paper/` is listed in `.gitignore` by design and is not part of the GitHub upload. Its local release notes retain the status `ANALYZED`, not `VERIFIED`, until an independent clean-environment full rerun is completed.
+
+## Attribution
+
+Li, L. and Li, C. (2025). *Formalizing Lacanian Psychoanalysis Through the Free Energy Principle*. Frontiers in Psychology, 16, 1574650. [DOI](https://doi.org/10.3389/fpsyg.2025.1574650).
+
+The upstream prototype remains in `agent.py`, `cofig.py`, and `simulations.py`; this repository preserves that attribution and labels the continuation's controls and A3 archive separately.

@@ -1,0 +1,37 @@
+{
+  "protocol": "A3-v1.0",
+  "script_sha256": "e827edebdab18b167e3a76dd4acb5b685000832ebb9c5ebc3d47e9e31de5901d",
+  "a2_script_sha256": "ccb4d805374840d7a5a829fb129d67c5064009f00f12e979ef0681036047b66f",
+  "factorial_sha256": "bd996d2bb5c2483d88fcd2563983ec35e7ec9128e6149452194128ffada5f47e",
+  "python": "3.10.6 (tags/v3.10.6:9c7b4bd, Aug  1 2022, 21:53:49) [MSC v.1932 64 bit (AMD64)]",
+  "numpy": "2.2.6",
+  "platform": "Windows-10-10.0.26100-SP0",
+  "command": "publication_lock_a3.py stage6",
+  "start": "2026-08-16T07:21:02Z",
+  "end": "2026-08-16T07:21:02Z",
+  "seeds": "1000..1199",
+  "T": 200,
+  "sigma": 0.4,
+  "lambdas": [
+    0.0,
+    0.02,
+    0.05,
+    0.1,
+    0.2,
+    0.5,
+    1.0
+  ],
+  "smooth_eps": 0.6226913805973577,
+  "primary_grid": "200 seeds x 2 schedules x (hard+smooth+7 lambda)",
+  "robust_grid": "200 seeds x 2 schedules x (hard+l0+l.20+l1)",
+  "q_act_retention": "metrics computed from full q_act at runtime; npz stores per-round mean misID/NLL/Brier/H and S_pre/S_post/aligned, not full q_act (volume)",
+  "outputs": {
+    "publication_lock_a3.py": "e827edebdab18b167e3a76dd4acb5b685000832ebb9c5ebc3d47e9e31de5901d",
+    "publication_lock_a3_results.csv": "d0dba8b620e563abf8b72a1beadfffa255ca55e1158f103e0292f0e59b244582",
+    "publication_lock_a3_summary.csv": "459e5b2d938ea99e227a5bac138e7edd839e53aa45a72c210866fd0cdfbcdd47",
+    "publication_lock_a3_timeseries.npz": "d23b1b071c22557d370f7aac76b4377cf36daf949122c99d694a1fcc8efdee86",
+    "publication_lock_a3_statistics.md": "6c73b8a1ac45378dd1d651aca2b06394574bd2926240c833247a12759990349a",
+    "publication_lock_a3_report.md": "24e4f7d4f69c52ad06e82fec2b08299dd1e10058610669bb2f7ee67057a8e83b",
+    "publication_lock_a3_regression.md": "62f3299cd895a1ea6afe48ac83fa753984facdfb533bbdbfe222dffc9e0c8b6f"
+  }
+}
